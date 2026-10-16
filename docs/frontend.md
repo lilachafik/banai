@@ -47,7 +47,7 @@ Editing rules:
 - Buttons and selects report errors under their section.
 - No LLM is involved in manual editing.
 
-The visual design follows the Stitch design system documented in `/.stitch/DESIGN.md`.
+The visual design follows the Stitch Material 3 design system ("BanAI Material 3 — Oak") documented in `/.stitch/DESIGN.md`. The chat pane (composer, proposal-card `<template>`) is static, disabled markup in `index.html` until Phase 5.
 
 ## Testing
 - **Unit:** `npm test` (vitest). This covers the domain engine and parity fixtures, the store, the API client, and the builders.

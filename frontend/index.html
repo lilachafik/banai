@@ -7,28 +7,75 @@
     <link rel="stylesheet" href="/src/styles/index.css" />
   </head>
   <body>
+    <!-- Icons: Material Icons (Apache 2.0), inline so no icon font or external request is needed. -->
+    <svg class="icon-sprite" width="0" height="0" aria-hidden="true">
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z" /></symbol>
+      <symbol id="i-tune" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z" /></symbol>
+    </svg>
+
     <header class="topbar">
-      <h1 class="topbar__title">BanAI <span>Wardrobe Designer</span></h1>
+      <div class="topbar__brand">
+        <span class="topbar__logo" aria-hidden="true">B</span>
+        <h1 class="topbar__title"><strong>BanAI</strong> <span>Wardrobe Designer</span></h1>
+      </div>
       <div class="topbar__actions">
         <label class="toggle">
-          <input type="checkbox" id="toggle-interior" />
+          <input type="checkbox" id="toggle-interior" role="switch" />
           <span>Show interior</span>
         </label>
-        <span class="topbar__units">cm</span>
+        <span class="chip" title="All dimensions are shown in centimetres">
+          <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>cm
+        </span>
       </div>
     </header>
     <div class="banner banner--error" id="error-banner" role="alert" hidden></div>
     <main class="workspace">
       <aside class="panel" id="chat-panel" aria-label="AI designer">
-        <h2 class="panel__title">AI Designer</h2>
-        <p class="panel__note">Describe the wardrobe you want, and the agent will propose changes for you to confirm.</p>
-        <div class="empty-state">The conversational design agent is not connected yet (planned for Phase 5). You can design manually in the Properties panel.</div>
+        <div class="panel__header">
+          <svg class="icon" aria-hidden="true"><use href="#i-sparkle" /></svg>
+          <h2 class="panel__title">AI Designer</h2>
+        </div>
+        <div class="panel__body chat__thread" id="chat-thread" aria-live="polite">
+          <div class="chat__empty">
+            <p>Describe the wardrobe you want, and the agent will propose changes for you to confirm.</p>
+            <p>The conversational design agent is not connected yet (planned for Phase 5). You can design manually in the Properties panel.</p>
+          </div>
+        </div>
+        <form class="chat__composer" id="chat-composer" aria-label="Message the AI designer">
+          <div class="composer">
+            <input class="composer__input" type="text" placeholder="Describe a change…" aria-label="Message" disabled />
+            <button class="icon-btn" type="submit" aria-label="Send" disabled>
+              <svg class="icon" aria-hidden="true"><use href="#i-send" /></svg>
+            </button>
+          </div>
+          <p class="composer__hint">Every AI change waits for your confirmation.</p>
+        </form>
+        <!-- Proposal card markup for the Phase 5 chat module (inert until then). -->
+        <template id="proposal-card-template">
+          <article class="proposal-card">
+            <h3 class="proposal-card__title"><svg class="icon" aria-hidden="true"><use href="#i-sparkle" /></svg>Proposed changes</h3>
+            <p class="proposal-card__stale" hidden>Design changed – ask the agent to re-propose.</p>
+            <ul class="proposal-card__list"></ul>
+            <p class="proposal-card__note">Nothing changes until you confirm.</p>
+            <div class="button-row">
+              <button class="btn btn--primary" type="button" data-action="confirm"><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>Confirm</button>
+              <button class="btn btn--outlined" type="button" data-action="cancel">Cancel</button>
+            </div>
+          </article>
+        </template>
       </aside>
       <section class="viewer" id="viewer" aria-label="3D viewer"></section>
       <aside class="panel panel--properties" id="properties-panel" aria-label="Properties">
-        <h2 class="panel__title">Properties</h2>
-        <p class="panel__hint">Click a component in the 3D view to edit it.</p>
-        <div id="properties-content"></div>
+        <div class="panel__header">
+          <svg class="icon" aria-hidden="true"><use href="#i-tune" /></svg>
+          <h2 class="panel__title">Properties</h2>
+        </div>
+        <div class="panel__body">
+          <p class="panel__hint">Click a component in the 3D view to edit it.</p>
+          <div id="properties-content"></div>
+        </div>
       </aside>
     </main>
     <script type="module" src="/src/main.js"></script>

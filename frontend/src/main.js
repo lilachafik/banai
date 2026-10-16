@@ -1,6 +1,4 @@
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
+import '@fontsource-variable/roboto-flex/wght.css';
 import { getCatalog, getDefaultDesign } from './api/client.js';
 import { createStore } from './state/store.js';
 import { mountPanel } from './editor/panel.js';

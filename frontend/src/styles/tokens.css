@@ -1,31 +1,67 @@
-/* Design tokens from the Stitch design system "Nordic Atelier" (see /.stitch/DESIGN.md). */
+/* Material Design 3 tokens for the Stitch design system "BanAI Material 3 - Oak"
+   (see /.stitch/DESIGN.md). Colour roles are the M3 Tonal Spot light scheme generated
+   from the seed #B4532A with @material/material-color-utilities; regenerate, don't hand-edit. */
 :root {
-  --color-bg: #f4f2ee;
-  --color-surface: #ffffff;
-  --color-ink: #1f2328;
-  --color-muted: #5b6470;
-  --color-border: #e3e0da;
-  --color-accent: #b4532a;
-  --color-accent-hover: #9c4420;
-  --color-accent-soft: rgba(180, 83, 42, 0.08);
-  --color-success: #4f7a5a;
-  --color-danger: #a33a2b;
-  --color-danger-soft: #fbeae7;
-  --color-viewer: #eceeec;
+  --md-sys-color-primary: #8e4c32;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #ffdbce;
+  --md-sys-color-on-primary-container: #71361d;
+  --md-sys-color-secondary: #77574b;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #ffdbce;
+  --md-sys-color-on-secondary-container: #5d4035;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #93000a;
+  --md-sys-color-surface: #fff8f6;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #fff1ec;
+  --md-sys-color-surface-container: #fceae4;
+  --md-sys-color-surface-container-high: #f7e4df;
+  --md-sys-color-surface-container-highest: #f1dfd9;
+  --md-sys-color-on-surface: #231a16;
+  --md-sys-color-on-surface-variant: #53433e;
+  --md-sys-color-outline: #85736d;
+  --md-sys-color-outline-variant: #d8c2bb;
+  --md-sys-color-inverse-surface: #392e2a;
+  --md-sys-color-inverse-on-surface: #ffede7;
 
-  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-md: 14px;
-  --text-lg: 16px;
+  /* State layers (M3): an overlay of the content colour at these opacities. */
+  --md-sys-state-hover: 8%;
+  --md-sys-state-focus: 10%;
+  --md-sys-state-pressed: 10%;
+  --md-sys-state-disabled-content: 0.38;
 
+  /* Type scale (Roboto Flex). */
+  --md-ref-typeface: 'Roboto Flex Variable', 'Roboto Flex', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --md-sys-typescale-title-large: 400 22px/28px var(--md-ref-typeface);
+  --md-sys-typescale-title-medium: 500 16px/24px var(--md-ref-typeface);
+  --md-sys-typescale-title-small: 500 14px/20px var(--md-ref-typeface);
+  --md-sys-typescale-body-large: 400 16px/24px var(--md-ref-typeface);
+  --md-sys-typescale-body-medium: 400 14px/20px var(--md-ref-typeface);
+  --md-sys-typescale-body-small: 400 12px/16px var(--md-ref-typeface);
+  --md-sys-typescale-label-large: 500 14px/20px var(--md-ref-typeface);
+  --md-sys-typescale-label-medium: 500 12px/16px var(--md-ref-typeface);
+  --md-sys-typescale-label-small: 500 11px/16px var(--md-ref-typeface);
+
+  /* Shape scale. */
+  --md-sys-shape-extra-small: 4px;
+  --md-sys-shape-small: 8px;
+  --md-sys-shape-medium: 12px;
+  --md-sys-shape-large: 16px;
+  --md-sys-shape-extra-large: 28px;
+  --md-sys-shape-full: 9999px;
+
+  /* Spacing: 4px grid. */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 24px;
 
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --focus-outline: 2px solid var(--color-accent);
+  --focus-ring: 2px solid var(--md-sys-color-primary);
+
+  /* Icons (Material Icons, Apache 2.0) as masks, so they take the current text colour. */
+  --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
 }

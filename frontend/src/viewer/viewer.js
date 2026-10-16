@@ -12,7 +12,7 @@ import { createMaterials } from './materials.js';
 import { attachPicking } from './picking.js';
 import { toM } from './units.js';
 
-const BACKGROUND = '#eceeec';
+const BACKGROUND = '#fceae4'; // M3 surface-container (src/styles/tokens.css)
 
 function createScene() {
   const scene = new THREE.Scene();
@@ -24,7 +24,7 @@ function createScene() {
   const fill = new THREE.DirectionalLight('#ffffff', 0.9);
   fill.position.set(-2, 2, 5);
   scene.add(fill);
-  const grid = new THREE.GridHelper(12, 24, '#c9ccc8', '#dcdfdb');
+  const grid = new THREE.GridHelper(12, 24, '#d8c2bb', '#efdcd5');
   grid.position.y = -0.0005;
   scene.add(grid);
   return scene;
