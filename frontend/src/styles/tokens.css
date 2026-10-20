@@ -26,6 +26,13 @@
   --md-sys-color-outline-variant: #d8c2bb;
   --md-sys-color-inverse-surface: #392e2a;
   --md-sys-color-inverse-on-surface: #ffede7;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-shadow: #000000;
+
+  /* Elevation: only dialogs and menus cast a shadow (M3 level 3). */
+  --md-sys-elevation-3: 0 4px 8px 3px color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent),
+    0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+  --md-sys-scrim-opacity: 32%;
 
   /* State layers (M3): an overlay of the content colour at these opacities. */
   --md-sys-state-hover: 8%;
@@ -35,6 +42,7 @@
 
   /* Type scale (Roboto Flex). */
   --md-ref-typeface: 'Roboto Flex Variable', 'Roboto Flex', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --md-sys-typescale-headline-small: 400 24px/32px var(--md-ref-typeface);
   --md-sys-typescale-title-large: 400 22px/28px var(--md-ref-typeface);
   --md-sys-typescale-title-medium: 500 16px/24px var(--md-ref-typeface);
   --md-sys-typescale-title-small: 500 14px/20px var(--md-ref-typeface);

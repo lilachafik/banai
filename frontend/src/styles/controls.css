@@ -162,6 +162,9 @@ input.field__input[inputmode] { padding-right: 40px; text-align: right; }
   color: var(--md-sys-color-on-primary);
   cursor: pointer;
 }
+.icon-btn--standard { background: transparent; color: var(--md-sys-color-on-surface-variant); }
+.icon-btn--standard:hover:not(:disabled) { background: color-mix(in srgb, var(--md-sys-color-on-surface-variant) var(--md-sys-state-hover), transparent); }
+.icon-btn:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
 .icon-btn:disabled {
   background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
   color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);

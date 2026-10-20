@@ -40,6 +40,7 @@ body {
 .topbar__title strong { font-weight: 600; }
 .topbar__title span { color: var(--md-sys-color-on-surface-variant); }
 .topbar__actions { display: flex; align-items: center; gap: var(--space-4); }
+.topbar__divider { width: 1px; height: 24px; background: var(--md-sys-color-outline-variant); }
 
 /* Assist chip. */
 .chip {
@@ -123,22 +124,154 @@ body {
 .composer:has(.composer__input:disabled) { opacity: var(--md-sys-state-disabled-content); }
 .composer__hint { margin: var(--space-2) 0 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }
 
-/* Proposal card template (M3 filled card). Rendered by the Phase 5 chat module. */
+/* Chat messages (templates in index.html; rendered by the Phase 5 chat module). */
+.chat-msg { display: flex; flex-direction: column; gap: var(--space-1); align-items: flex-start; }
+.chat-msg[data-role="user"] { align-items: flex-end; }
+.chat-msg[data-role="user"] .chat-msg__sender { display: none; }
+.chat-msg__sender { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-label-medium); }
+.chat-msg__bubble {
+  max-width: 85%;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--md-sys-shape-large);
+  border-top-left-radius: var(--md-sys-shape-extra-small);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.chat-msg[data-role="user"] .chat-msg__bubble {
+  border-radius: var(--md-sys-shape-large);
+  border-top-right-radius: var(--md-sys-shape-extra-small);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+.chat-msg__time { color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-label-small); }
+.chat-msg__time:empty { display: none; }
+.chat-msg__bubble--loading { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); }
+.typing { display: inline-flex; gap: 3px; }
+.typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--md-sys-shape-full);
+  background: currentColor;
+  animation: typing 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing { 0%, 60%, 100% { opacity: 0.3; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .typing span { animation: none; opacity: 0.6; } }
+
+/* Proposal card (M3 filled card). Stale = .proposal-card--stale. */
 .proposal-card {
   padding: var(--space-4);
   border-radius: var(--md-sys-shape-medium);
   background: var(--md-sys-color-surface-container-highest);
 }
 .proposal-card__title { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-3); font: var(--md-sys-typescale-title-medium); }
-.proposal-card__list { margin: 0 0 var(--space-3); padding-left: var(--space-5); }
-.proposal-card__note { margin: 0 0 var(--space-4); color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }
+.proposal-card__title .icon { color: var(--md-sys-color-primary); }
+.proposal-card__badge {
+  margin-left: auto;
+  padding: 2px var(--space-2);
+  border-radius: var(--md-sys-shape-small);
+  background: var(--md-sys-color-surface-container-lowest);
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-medium);
+}
+.proposal-card__list { margin: 0 0 var(--space-3); padding-left: var(--space-5); font: var(--md-sys-typescale-body-medium); }
+.proposal-card__list li + li { margin-top: var(--space-1); }
+.proposal-card__note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-small);
+}
+.proposal-card__note .icon { width: 16px; height: 16px; }
 .proposal-card__stale {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
   margin: 0 0 var(--space-3);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--md-sys-shape-small);
   background: var(--md-sys-color-error-container);
   color: var(--md-sys-color-on-error-container);
 }
+.proposal-card__stale[hidden], .proposal-card__badge[hidden] { display: none; }
+.proposal-card__stale .icon { width: 18px; height: 18px; color: var(--md-sys-color-error); }
+.proposal-card--stale .proposal-card__list,
+.proposal-card--stale .proposal-card__title { opacity: var(--md-sys-state-disabled-content); }
+.proposal-card .button-row .btn--primary { flex: 1; }
+
+/* Dialogs (M3 basic dialog on a native <dialog>; Phase 7 share, Phase 8 render). */
+.dialog {
+  width: min(560px, calc(100vw - 48px));
+  max-height: calc(100vh - 48px);
+  padding: var(--space-5);
+  border: 0;
+  border-radius: var(--md-sys-shape-extra-large);
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-3);
+}
+.dialog--wide { width: min(720px, calc(100vw - 48px)); }
+.dialog::backdrop { background: color-mix(in srgb, var(--md-sys-color-scrim) var(--md-sys-scrim-opacity), transparent); }
+.dialog__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+.dialog__headline { margin: 0 0 var(--space-4); font: var(--md-sys-typescale-headline-small); }
+.dialog__header .dialog__headline { margin: 0; }
+.dialog__body { margin: 0 0 var(--space-5); color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); }
+.dialog__note { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-3) 0 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }
+.dialog__note .icon { width: 16px; height: 16px; }
+.dialog__actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-5); }
+
+.link-field { position: relative; display: flex; align-items: center; }
+.link-field__input { height: 48px; padding-right: 52px; border-radius: var(--md-sys-shape-full); font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; }
+.link-field .icon-btn { position: absolute; right: 4px; }
+
+.render-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--md-sys-shape-large);
+  background: var(--md-sys-color-surface-container);
+}
+.render-frame__image { width: 100%; height: 100%; object-fit: contain; }
+.render-frame__loading { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); }
+.render-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3);
+  border-radius: var(--md-sys-shape-small);
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+}
+.render-error .icon { color: var(--md-sys-color-error); }
+/* One state at a time: loading → spinner, ready → image, error → banner + Try again. */
+.dialog:not([data-state="loading"]) .render-frame__loading,
+.dialog:not([data-state="ready"]) .render-frame__image,
+.dialog:not([data-state="error"]) .render-error,
+.dialog:not([data-state="error"]) [data-action="retry"],
+.dialog[data-state="error"] .render-frame { display: none; }
+.dialog[data-state="error"] .render-error { margin-top: 0; }
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--md-sys-color-secondary-container);
+  border-top-color: var(--md-sys-color-primary);
+  border-radius: var(--md-sys-shape-full);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
 
 /* 3D viewer. */
 .viewer { position: relative; min-width: 0; overflow: hidden; background: var(--md-sys-color-surface-container); }
