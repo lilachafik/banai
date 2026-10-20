@@ -90,6 +90,7 @@ Revision and persistence metadata (`revision`, `designId`) stay **outside** the 
 | GET | `/api/designs/default` | basic wardrobe template |
 | POST | `/api/chat` | agent turn → reply + optional signed proposal |
 | POST | `/api/proposals/apply` | verify, check stale, apply → new design |
+| POST | `/api/transcribe` | raw audio body (≤ 2 MB) → `{text}` for the chat input; nothing stored (Phase 5b) |
 | POST | `/api/designs/validate` | server validation of a manual design (used before save) |
 | POST | `/api/designs` | create → `{designId, accessToken, revision}` |
 | GET | `/api/designs/{id}` | header `Authorization: Bearer <token>` → design |
@@ -155,6 +156,7 @@ The work is split into separate **phases**. At the end of each phase I stop, rep
 | **Phase 3 – 3D Viewer** | 3 | Wardrobe rendered from state, selection, dimensions |
 | **Phase 4 – UI & Manual Editing** | 4 | Stitch-designed 3-column UI, properties editor synced to viewer |
 | **Phase 5 – AI Agent** | 5 | Chat + signed proposals + confirm/cancel/stale |
+| **Phase 5b – Voice dictation** | 5b | Mic → `/api/transcribe` (OpenAI STT) → text in the chat input for review (scope change, 2026-10-20) |
 | **Phase 6 – Integrated Co-Design** | 6 | 3 entry paths, acceptance steps 1–16 passing locally |
 | **Phase 7 – Persistence** | 7 | Supabase save/reopen via secure link |
 | **Phase 8 – AI Rendering** | 8 | Photoreal preview without state change |

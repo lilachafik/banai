@@ -3,7 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.errors import RateLimitExceeded
 
-from app.api import chat, health, proposals, reference
+from app.api import chat, health, proposals, reference, transcribe
 from app.api.errors import ApiError, api_error_handler, validation_error_handler
 from app.api.limits import BodySizeLimit, limiter, rate_limit_handler
 from app.config import get_settings
@@ -34,6 +34,7 @@ def create_app() -> FastAPI:
     app.include_router(reference.router)
     app.include_router(chat.router)
     app.include_router(proposals.router)
+    app.include_router(transcribe.router)
     return app
 
 

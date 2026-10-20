@@ -53,6 +53,13 @@ export const getDefaultDesign = (fetchImpl = fetch) => getJson('/api/designs/def
 export const postChat = ({ messages, design, revision }, fetchImpl = fetch) =>
   postJson('/api/chat', { messages, design, revision }, fetchImpl);
 
+/** Dictation: send a recording (raw Blob body), get its text back. Nothing is sent to the agent. */
+export const transcribe = (audio, fetchImpl = fetch) => request('/api/transcribe', fetchImpl, {
+  method: 'POST',
+  headers: { 'Content-Type': audio.type || 'audio/webm' },
+  body: audio,
+}).then((data) => String(data?.text ?? ''));
+
 /** Apply a signed proposal. Returns { design, revision }; throws ApiError 409 when stale. */
 export const applyProposal = ({ design, revision, proposal }, fetchImpl = fetch) =>
   postJson('/api/proposals/apply', { design, revision, proposal }, fetchImpl);

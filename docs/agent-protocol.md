@@ -99,6 +99,32 @@ The frontend shows its own fixed texts for these errors and renders all agent te
 - `frontend/tests/unit/chat/controller.test.js`: send / confirm / cancel / stale / in-flight edit.
 - `frontend/tests/e2e/chat.spec.js`: the UI flow with mocked agent endpoints.
 
+## Voice dictation (Phase 5b, scope change 2026-10-20)
+Dictation only: no spoken replies and no voice conversation. The approval flow is unchanged.
+1. The mic button (shown only when the browser can record in a secure context) records with
+   `MediaRecorder`, up to **60 s**. The microphone is released as soon as recording stops.
+2. The recording is posted as the **raw request body** to `POST /api/transcribe` with its audio
+   `Content-Type` (`audio/webm|ogg|mp4|mpeg|wav`, codec parameters allowed).
+3. The backend sends it to OpenAI (`OPENAI_TRANSCRIBE_MODEL`, default `gpt-4o-transcribe`) and
+   returns `{text}` (whitespace-normalised, ≤ 2000 chars). Audio is never stored or logged.
+4. The text is put **in the chat input** for the customer to review and edit. It is never sent
+   to the agent automatically; Send and then Confirm are still required.
+
+| Error | Status |
+|---|---|
+| `UNSUPPORTED_AUDIO` (content type not allowed) | 415 |
+| `PAYLOAD_TOO_LARGE` (> 2 MB; the per-path body cap, other routes stay at 256 KB) | 413 |
+| `EMPTY_AUDIO` (< 1 KB) | 422 |
+| `AGENT_UNAVAILABLE` (no key or model) / `AGENT_ERROR` (provider failure) | 503 / 502 |
+| `RATE_LIMITED` (`TRANSCRIBE_RATE_LIMIT`, default 10/minute per IP) | 429 |
+
+Browser errors (microphone blocked or missing, nothing heard) and server errors are shown as
+fixed texts under the composer.
+
+Known behaviour: speech-to-text models can return invented text for non-speech audio (noise,
+tones). No transcription prompt is sent, which keeps such output obviously wrong rather than
+plausible; review-before-send is the safeguard.
+
 ## Known limitations
 - Behind a proxy (Railway), the rate limiter needs the real client IP: run uvicorn with
   `--proxy-headers` and trusted forwarded IPs (Phase 9).

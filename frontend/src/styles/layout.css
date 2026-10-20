@@ -123,6 +123,52 @@ body {
 .composer__input:disabled { color: var(--md-sys-color-on-surface-variant); }
 .composer:has(.composer__input:disabled) { opacity: var(--md-sys-state-disabled-content); }
 .composer__hint { margin: var(--space-2) 0 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); }
+.composer__hint--voice { margin-top: var(--space-1); }
+.composer__error { margin: var(--space-2) 0 0; color: var(--md-sys-color-error); font: var(--md-sys-typescale-body-small); }
+
+/* Voice dictation (Phase 5b): mic → recording (error, stop icon, timer) → transcribing (ring). */
+.composer__voice {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--md-sys-shape-full);
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  font: var(--md-sys-typescale-label-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.composer__voice[data-phase="recording"]::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: var(--md-sys-shape-full);
+  background: var(--md-sys-color-error);
+  animation: pulse 1s ease-in-out infinite;
+}
+.composer__voice[data-phase="transcribing"] { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+.composer__voice[hidden] { display: none; }
+.mic-btn[hidden] { display: none; }
+.icon-btn.mic-btn--recording,
+.icon-btn.mic-btn--recording:hover:not(:disabled) { background: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
+.icon-btn.mic-btn--busy:disabled { background: transparent; color: var(--md-sys-color-primary); }
+.mic-btn--busy .icon { display: none; }
+.mic-btn--busy::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--md-sys-color-secondary-container);
+  border-top-color: var(--md-sys-color-primary);
+  border-radius: var(--md-sys-shape-full);
+  animation: spin 1s linear infinite;
+}
+@keyframes pulse { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) {
+  .composer__voice[data-phase="recording"]::before { animation: none; }
+  .mic-btn--busy::after { animation-duration: 3s; }
+}
 
 /* Chat messages (templates in index.html; rendered by the Phase 5 chat module). */
 .chat-msg { display: flex; flex-direction: column; gap: var(--space-1); align-items: flex-start; }

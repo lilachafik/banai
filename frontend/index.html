@@ -19,6 +19,8 @@
       <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" /></symbol>
       <symbol id="i-info" viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></symbol>
       <symbol id="i-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" /></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z" /></symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24"><path d="M6 6h12v12H6z" /></symbol>
       <symbol id="i-warning" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" /></symbol>
     </svg>
 
@@ -65,11 +67,18 @@
         <form class="chat__composer" id="chat-composer" aria-label="Message the AI designer">
           <div class="composer">
             <input class="composer__input" type="text" placeholder="Describe a change…" aria-label="Message" maxlength="2000" autocomplete="off" dir="auto" disabled />
+            <!-- Voice dictation (Phase 5b): shown by chatPanel.js when the browser can record. -->
+            <span class="composer__voice" role="status" hidden></span>
+            <button class="icon-btn icon-btn--standard mic-btn" type="button" data-action="dictate" aria-label="Start voice input" hidden>
+              <svg class="icon" aria-hidden="true"><use href="#i-mic" /></svg>
+            </button>
             <button class="icon-btn" type="submit" aria-label="Send" disabled>
               <svg class="icon" aria-hidden="true"><use href="#i-send" /></svg>
             </button>
           </div>
           <p class="composer__hint">Every AI change waits for your confirmation.</p>
+          <p class="composer__hint composer__hint--voice" hidden>Voice is transcribed by OpenAI and not stored.</p>
+          <p class="composer__error" role="alert" hidden></p>
         </form>
         <!-- Chat markup, rendered by src/chat/chatPanel.js. -->
         <template id="chat-message-template">

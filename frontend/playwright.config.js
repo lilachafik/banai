@@ -16,11 +16,22 @@ export default defineConfig({
     trace: 'retain-on-failure',
     viewport: { width: 1440, height: 900 },
   },
-  projects: [{
-    name: 'chromium',
-    use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 },
-      launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } },
-  }],
+  projects: [
+    {
+      name: 'chromium',
+      testIgnore: /voice\.spec\.js/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 },
+        launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } },
+    },
+    {
+      // Dictation (Phase 5b): Chromium's fake microphone, permission granted without a prompt.
+      name: 'voice',
+      testMatch: /voice\.spec\.js/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 },
+        launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader',
+          '--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] } },
+    },
+  ],
   webServer: [
     {
       command: `uv run uvicorn app.main:app --port ${API_PORT}`,

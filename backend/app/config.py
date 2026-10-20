@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     openai_chat_model: str = ""
     proposal_signing_key: str = ""
     chat_rate_limit: str = "10/minute"
+    # Phase 5b dictation. Configurable prototype default, not a business rule.
+    openai_transcribe_model: str = "gpt-4o-transcribe"
+    transcribe_rate_limit: str = "10/minute"
 
     @property
     def cors_origin_list(self) -> list[str]:
@@ -28,6 +31,10 @@ class Settings(BaseSettings):
     @property
     def signing_configured(self) -> bool:
         return len(self.proposal_signing_key) >= MIN_SIGNING_KEY_LENGTH
+
+    @property
+    def transcribe_configured(self) -> bool:
+        return bool(self.openai_api_key and self.openai_transcribe_model)
 
     @property
     def agent_configured(self) -> bool:
