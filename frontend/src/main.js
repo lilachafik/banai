@@ -1,5 +1,6 @@
 import '@fontsource-variable/roboto-flex/wght.css';
-import { getCatalog, getDefaultDesign } from './api/client.js';
+import { applyProposal, getCatalog, getDefaultDesign, postChat } from './api/client.js';
+import { mountChat } from './chat/chatPanel.js';
 import { createStore } from './state/store.js';
 import { mountPanel } from './editor/panel.js';
 import { createViewer } from './viewer/viewer.js';
@@ -30,6 +31,7 @@ async function boot() {
   const viewer = createViewer(document.getElementById('viewer'), store);
   bindInteriorToggle(store);
   mountPanel(document.getElementById('properties-content'), store);
+  mountChat(document.getElementById('chat-panel'), store, { postChat, applyProposal });
   if (import.meta.env.DEV) {
     window.__banai = Object.freeze({ store, viewer });
   }

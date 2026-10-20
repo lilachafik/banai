@@ -207,6 +207,20 @@ body {
 .proposal-card--stale .proposal-card__list,
 .proposal-card--stale .proposal-card__title { opacity: var(--md-sys-state-disabled-content); }
 .proposal-card .button-row .btn--primary { flex: 1; }
+.proposal-card--closed { background: var(--md-sys-color-surface-container-high); }
+.proposal-card--closed .button-row,
+.proposal-card--closed .proposal-card__note { display: none; }
+.proposal-card--closed .proposal-card__list { margin-bottom: 0; opacity: var(--md-sys-state-disabled-content); }
+
+/* Notes (applied / cancelled) and errors in the thread. */
+.chat-note { margin: 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); text-align: center; }
+.chat-note--error {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--md-sys-shape-small);
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  text-align: left;
+}
 
 /* Dialogs (M3 basic dialog on a native <dialog>; Phase 7 share, Phase 8 render). */
 .dialog {

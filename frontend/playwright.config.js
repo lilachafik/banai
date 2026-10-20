@@ -7,6 +7,8 @@ const WEB_PORT = 5183;
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: false,
+  // One worker: each worker is a Chromium with software WebGL, and parallel runs starve it.
+  workers: 1,
   retries: 0,
   reporter: [['list']],
   use: {

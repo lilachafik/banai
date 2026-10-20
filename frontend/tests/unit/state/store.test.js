@@ -95,4 +95,28 @@ describe('store input validation (Phase 3 security review M1)', () => {
   it('rejects an invalid revision', () => {
     expect(() => createStore({ design: loadDesign('basic'), revision: 0, catalog })).toThrow();
   });
+
+  it('commits a validated server design with a higher revision', () => {
+    const store = makeStore();
+    const next = structuredClone(store.getState().design);
+    next.compartments[0].shelves[0].y = 450;
+    store.commitDesign(next, 2);
+    expect(store.getState().revision).toBe(2);
+    expect(store.getState().design.compartments[0].shelves[0].y).toBe(450);
+    expect(() => store.commitDesign(next, 2)).toThrow(); // revision must move forward
+    const invalid = { ...next, dimensions: { ...next.dimensions, width: 1 } };
+    expect(() => store.commitDesign(invalid, 3)).toThrow();
+    expect(store.getState().revision).toBe(2);
+  });
+
+  it('keeps a pending proposal outside the committed design', () => {
+    const store = makeStore();
+    const proposal = { baseRevision: 1, ops: [] };
+    store.setProposal(proposal);
+    expect(store.getState().pendingProposal).toBe(proposal);
+    expect(store.getState().revision).toBe(1);
+    expect('pendingProposal' in store.getState().design).toBe(false);
+    store.clearProposal();
+    expect(store.getState().pendingProposal).toBeNull();
+  });
 });

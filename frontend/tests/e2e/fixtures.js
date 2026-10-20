@@ -1,12 +1,17 @@
 import { test as base, expect } from '@playwright/test';
 
-// Every E2E test fails on uncaught page errors or console errors.
+// Every E2E test fails on uncaught page errors or console errors. A test that provokes
+// an HTTP error on purpose lists the browser's log line in `expectedConsoleErrors`.
 export const test = base.extend({
-  page: async ({ page }, use) => {
+  expectedConsoleErrors: [[], { option: true }],
+  page: async ({ page, expectedConsoleErrors }, use) => {
     const problems = [];
     page.on('pageerror', (error) => problems.push(`pageerror: ${error.message}`));
     page.on('console', (message) => {
-      if (message.type() === 'error') problems.push(`console: ${message.text()}`);
+      const text = message.text();
+      if (message.type() === 'error' && !expectedConsoleErrors.some((expected) => text.includes(expected))) {
+        problems.push(`console: ${text}`);
+      }
     });
     await use(page);
     expect(problems, problems.join('\n')).toEqual([]);

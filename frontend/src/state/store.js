@@ -36,7 +36,13 @@ export function createStore({ design, revision = 1, catalog }) {
     throw new DomainError('SCHEMA_INVALID', 'revision', 'invalid revision');
   }
   let state = deepFreeze({
-    design: validDesign, revision, catalog: validCatalog, selection: null, ui: { doorsVisible: true },
+    design: validDesign,
+    revision,
+    catalog: validCatalog,
+    selection: null,
+    ui: { doorsVisible: true },
+    // An AI proposal awaiting Confirm/Cancel. Never part of the committed design.
+    pendingProposal: null,
   });
   const listeners = new Set();
 
@@ -65,6 +71,27 @@ export function createStore({ design, revision = 1, catalog }) {
       const selection = state.selection && resolveSelection(next, state.selection.id);
       commit({ design: next, revision: state.revision + 1, selection });
       return { ok: true };
+    },
+
+    /**
+     * Commit a design produced by the server (an approved AI proposal). It is validated
+     * like the initial design; invalid data throws and leaves the state untouched.
+     */
+    commitDesign(design, nextRevision) {
+      const valid = applyOps(design, [], state.catalog);
+      if (!Number.isInteger(nextRevision) || nextRevision <= state.revision) {
+        throw new DomainError('SCHEMA_INVALID', 'revision', 'invalid revision');
+      }
+      const selection = state.selection && resolveSelection(valid, state.selection.id);
+      commit({ design: valid, revision: nextRevision, selection });
+    },
+
+    setProposal(proposal) {
+      commit({ pendingProposal: proposal });
+    },
+
+    clearProposal() {
+      if (state.pendingProposal !== null) commit({ pendingProposal: null });
     },
 
     select(id) {

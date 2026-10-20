@@ -98,6 +98,8 @@ Revision and persistence metadata (`revision`, `designId`) stay **outside** the 
 
 CORS is restricted to the frontend origin for each environment. Rate limiting (slowapi) applies to `/chat` and `/render`.
 
+`/api/chat` and `/api/proposals/apply` are implemented (Phase 5); their exact request, response and error contracts are in [agent-protocol.md](agent-protocol.md).
+
 ## 7. Supabase schema and security
 Migration `supabase/migrations/<ts>_designs.sql`, created with `supabase migration new`:
 - `public.designs(id uuid pk default gen_random_uuid(), token_hash bytea not null, state jsonb not null, schema_version int, revision int not null default 1, created_at, updated_at)`.

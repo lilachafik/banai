@@ -58,25 +58,25 @@
         </div>
         <div class="panel__body chat__thread" id="chat-thread" aria-live="polite">
           <div class="chat__empty">
-            <p>Describe the wardrobe you want, and the agent will propose changes for you to confirm.</p>
-            <p>The conversational design agent is not connected yet (planned for Phase 5). You can design manually in the Properties panel.</p>
+            <p>Describe the wardrobe you want, or ask for a change, e.g. “Add a shelf at 100 cm in the left compartment”.</p>
+            <p>The AI designer proposes changes; nothing changes until you confirm. You can also edit manually in the Properties panel.</p>
           </div>
         </div>
         <form class="chat__composer" id="chat-composer" aria-label="Message the AI designer">
           <div class="composer">
-            <input class="composer__input" type="text" placeholder="Describe a change…" aria-label="Message" disabled />
+            <input class="composer__input" type="text" placeholder="Describe a change…" aria-label="Message" maxlength="2000" autocomplete="off" dir="auto" disabled />
             <button class="icon-btn" type="submit" aria-label="Send" disabled>
               <svg class="icon" aria-hidden="true"><use href="#i-send" /></svg>
             </button>
           </div>
           <p class="composer__hint">Every AI change waits for your confirmation.</p>
         </form>
-        <!-- Chat markup for the Phase 5 chat module (inert until then). -->
+        <!-- Chat markup, rendered by src/chat/chatPanel.js. -->
         <template id="chat-message-template">
           <!-- data-role: "user" | "agent". Text is set with textContent only. -->
           <div class="chat-msg" data-role="user">
             <span class="chat-msg__sender">BanAI Assistant</span>
-            <p class="chat-msg__bubble"></p>
+            <p class="chat-msg__bubble" dir="auto"></p>
             <time class="chat-msg__time"></time>
           </div>
         </template>
@@ -91,7 +91,7 @@
         <!-- Stale state: add .proposal-card--stale, unhide the banner, disable Confirm. -->
         <template id="proposal-card-template">
           <article class="proposal-card">
-            <p class="proposal-card__stale" hidden><svg class="icon" aria-hidden="true"><use href="#i-warning" /></svg>Design changed – ask the agent to re-propose.</p>
+            <p class="proposal-card__stale" role="status" hidden><svg class="icon" aria-hidden="true"><use href="#i-warning" /></svg><span class="proposal-card__stale-text">Design changed – ask the agent to re-propose.</span></p>
             <h3 class="proposal-card__title"><svg class="icon" aria-hidden="true"><use href="#i-sparkle" /></svg>Proposed changes<span class="proposal-card__badge" hidden>Stale</span></h3>
             <ul class="proposal-card__list"></ul>
             <p class="proposal-card__note"><svg class="icon" aria-hidden="true"><use href="#i-info" /></svg>Nothing changes until you confirm.</p>
